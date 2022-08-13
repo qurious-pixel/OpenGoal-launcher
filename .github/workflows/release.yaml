@@ -18,8 +18,6 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.BOT_PAT }}
 
       - name: Setup Node
         uses: actions/setup-node@v3
