@@ -53,7 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          APPIMAGE_BUNDLE_GSTREAMER-0: true
+          APPIMAGE_BUNDLE_GSTREAMER-0: 1
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
