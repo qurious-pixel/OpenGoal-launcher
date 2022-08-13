@@ -14,9 +14,7 @@
       "active": true,
       "targets": [
         "msi",
-        "appimage": {
-          "bundleMediaFramework": true
-          },
+        "appimage",
         "updater"
       ],
       "identifier": "OpenGOAL-Launcher",
