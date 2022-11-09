@@ -33,3 +33,5 @@ test/out/
 *.tar.gz
 glewinfo.txt
 /metadata.json
+.svelte-kit/
+glew-cmake/

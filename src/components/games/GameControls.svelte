@@ -1,9 +1,13 @@
 <script type="ts">
   import { launcherConfig } from "$lib/config";
   import { getInternalName, SupportedGame } from "$lib/constants";
-  import { launchGame } from "$lib/launch";
-  import { openDir } from "$lib/rpc/commands";
-  import { compileGame, decompileGameData } from "$lib/setup/setup";
+  import { launchGame, launchGameInDebug } from "$lib/launch";
+  import { openDir, openREPL } from "$lib/rpc/commands";
+  import {
+    compileGame,
+    decompileGameData,
+    uninstallGame,
+  } from "$lib/setup/setup";
   import { appDir, configDir, join } from "@tauri-apps/api/path";
   import { createEventDispatcher, onMount } from "svelte";
   import LogViewer from "./setup/LogViewer.svelte";
@@ -34,10 +38,19 @@
     launchGame();
   }
 
+  async function onClickOpenREPL() {
+    await openREPL();
+  }
+
+  function onClickBootDebug() {
+    launchGameInDebug();
+  }
+
   async function onClickUninstall() {
     const confirmed = await confirm("Are you sure you want to uninstall?");
     if (confirmed) {
       await launcherConfig.setInstallStatus(activeGame, false);
+      await uninstallGame(activeGame);
       dispatch("change");
     }
   }
@@ -79,6 +92,11 @@
       >
       <button
         class="btn md"
+        on:click={onClickBootDebug}
+        disabled={$isDecompiling || $isCompiling}>Boot in Debug</button
+      >
+      <button
+        class="btn md"
         on:click={onClickDecompile}
         disabled={$isDecompiling || $isCompiling}>Decompile</button
       >
@@ -87,6 +105,7 @@
         on:click={onClickCompile}
         disabled={$isCompiling || $isDecompiling}>Compile</button
       >
+      <button class="btn md" on:click={onClickOpenREPL}>Open REPL</button>
       <button
         class="btn md"
         on:click={onClickUninstall}
